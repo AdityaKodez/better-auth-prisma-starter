@@ -30,7 +30,7 @@ cp .env.example .env.local
 
 **Required Environment Variables:**
 
-- `NEON_NEON_DATABASE_URL` - Already configured from Neon integration
+- `NEON_NEON_DATABASE_URL` - Paste Your Url 
 - `BETTER_AUTH_SECRET` - Generate with: `openssl rand -base64 32`
 - `GOOGLE_CLIENT_ID` - Get from [Google Cloud Console](https://console.cloud.google.com/)
 - `GOOGLE_CLIENT_SECRET` - Get from Google Cloud Console
