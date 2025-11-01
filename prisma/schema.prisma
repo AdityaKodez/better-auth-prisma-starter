@@ -1,0 +1,190 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("NEON_NEON_DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified Boolean   @default(false)
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  sessions      Session[]
+  accounts      Account[]
+  forms     Form[]
+  @@map("user")
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  expiresAt DateTime
+  token     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id @default(cuid())
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@unique([providerId, accountId])
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id @default(cuid())
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([identifier, value])
+  @@map("verification")
+}
+
+
+// Main form model
+model Form {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  published   Boolean  @default(false)
+  shareUrl    String   @unique @default(cuid())
+  backgroundColor String?  @default("#ffffff")
+  theme           String?  @default("light")
+  // Behavior
+  allowMultipleSubmissions Boolean @default(true)
+  requireAuth              Boolean @default(false)
+  showProgressBar          Boolean @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  userId      String
+  user        User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fields      FormField[]
+  submissions FormSubmission[]
+  
+  @@index([userId])
+  @@index([shareUrl])
+}
+
+// Individual form fields
+model FormField {
+  id          String   @id @default(cuid())
+  formId      String
+  
+  // Field configuration
+  type        FieldType
+  label       String
+  placeholder String?
+  helpText    String?
+  
+  // Validation
+  required    Boolean  @default(false)
+  
+  // Field-specific options (stored as JSON)
+  options     Json?    // For select, radio, checkbox - array of options
+  validation  Json?    // For validation rules (min, max, regex, etc.)
+  
+  // Layout & ordering
+  order       Int      @default(0)
+  
+  // Conditional logic
+  conditionalLogic Json? // Rules for showing/hiding fields
+  
+  // Timestamps
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relations
+  form        Form              @relation(fields: [formId], references: [id], onDelete: Cascade)
+  responses   FieldResponse[]
+  
+  @@index([formId])
+  @@index([order])
+}
+
+// Enum for field types
+enum FieldType {
+  SHORT_TEXT
+  LONG_TEXT
+  EMAIL
+  NUMBER
+  PHONE
+  URL
+  DATE
+  TIME
+  DATETIME
+  SINGLE_SELECT
+  MULTIPLE_SELECT
+  RADIO
+  CHECKBOX
+  FILE_UPLOAD
+  RATING
+  SCALE
+  YES_NO
+  SECTION_HEADING
+  DIVIDER
+}
+
+// Form submission (one per user who fills the form)
+model FormSubmission {
+  id          String   @id @default(cuid())
+  formId      String
+  
+  // Submitter info
+  submittedBy String?  // User ID if authenticated
+  ipAddress   String?
+  userAgent   String?
+  
+  // Metadata
+  startedAt   DateTime @default(now())
+  submittedAt DateTime @default(now())
+  completionTime Int?  // Time in seconds
+  
+  // Relations
+  form        Form            @relation(fields: [formId], references: [id], onDelete: Cascade)
+  responses   FieldResponse[]
+  
+  @@index([formId])
+  @@index([submittedAt])
+}
+
+// Individual field responses
+model FieldResponse {
+  id           String   @id @default(cuid())
+  submissionId String
+  fieldId      String
+  value        Json
+  createdAt    DateTime @default(now())
+  submission   FormSubmission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  field        FormField      @relation(fields: [fieldId], references: [id], onDelete: Cascade)
+  @@unique([submissionId, fieldId])
+  @@index([submissionId])
+  @@index([fieldId])
+}
