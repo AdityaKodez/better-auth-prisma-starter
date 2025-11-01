@@ -1,16 +1,15 @@
 "use client"
 
+import { Button } from "@/components/ui/button"
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form"
+import { authClient } from "@/lib/auth-client"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { EyeIcon, MailIcon } from "lucide-react"
+import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
-import { authClient } from "@/lib/auth-client"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form"
-import { useRouter } from "next/navigation"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "../ui/input-group"
-import { EyeIcon, MailIcon } from "lucide-react"
 
 const loginSchema = z.object({
   email: z.string().email("Please enter a valid email"),
