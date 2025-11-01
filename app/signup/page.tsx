@@ -1,6 +1,8 @@
 import { SignupForm } from "@/components/auth/signup-form"
+import { requireUnAuth } from "@/lib/auth-utils"
 
-export default function SignupPage() {
+export default async function SignupPage() {
+  await requireUnAuth();
   return (
     <div className="min-h-screen flex">
       {/* Left side - Form */}
