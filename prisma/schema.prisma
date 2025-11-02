@@ -1,11 +1,14 @@
 
 generator client {
   provider = "prisma-client-js"
+  output   = "./generated/client"
+  engineType = "node"
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("NEON_NEON_DATABASE_URL")
+ 
 }
 
 model User {
