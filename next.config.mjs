@@ -6,7 +6,8 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  // Disable Turbopack - use webpack for Prisma plugin compatibility
+  // Explicitly disable Turbopack to use webpack for Prisma plugin compatibility
+  turbopack: {},
   webpack: (config, { isServer }) => {
     if (isServer) {
       const { PrismaPlugin } = require('@prisma/nextjs-monorepo-workaround-plugin')
