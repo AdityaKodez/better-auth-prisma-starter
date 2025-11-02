@@ -75,7 +75,7 @@ export function SignupForm() {
   }
 
   return (
-    <div className="w-full max-w-md space-y-8">
+    <div className="w-full max-w-md space-y-8 px-6">
       {/* Logo */}
       <div className="flex justify-center">
         <div className="w-16 h-16 bg-black rounded-lg flex items-center justify-center">
