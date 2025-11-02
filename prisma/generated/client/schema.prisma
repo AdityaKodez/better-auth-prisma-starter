@@ -1,14 +1,12 @@
-
 generator client {
-  provider = "prisma-client-js"
-  output   = "./generated/client"
- engineType = "client"
+  provider   = "prisma-client-js"
+  output     = "./generated/client"
+  engineType = "client"
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("NEON_NEON_DATABASE_URL")
- 
 }
 
 model User {
@@ -21,6 +19,7 @@ model User {
   updatedAt     DateTime  @updatedAt
   sessions      Session[]
   accounts      Account[]
+
   @@map("user")
 }
 
@@ -69,4 +68,3 @@ model Verification {
   @@unique([identifier, value])
   @@map("verification")
 }
-
