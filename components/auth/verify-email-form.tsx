@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form"
 import { useRouter, useSearchParams } from "next/navigation"
+import { toast } from "sonner"
 
 const verifySchema = z.object({
   otp: z.string().length(6, "OTP must be 6 digits"),
@@ -42,6 +43,7 @@ export function VerifyEmailForm() {
       })
 
       if (result.error) {
+        toast.error(result.error.message || "Something went wrong")
         setError(result.error.message || "Invalid OTP")
         return
       }
@@ -86,7 +88,7 @@ export function VerifyEmailForm() {
     <div className="w-full max-w-md space-y-8">
       {/* Logo */}
       <div className="flex justify-center">
-        <div className="w-16 h-16 bg-black rounded-lg flex items-center justify-center">
+        <div className="w-16 h-16 bg-primary rounded-lg flex items-center justify-center">
           <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" className="w-10 h-10">
             <path d="M12 2L2 7l10 5 10-5-10-5z" />
             <path d="M2 17l10 5 10-5" />
@@ -98,7 +100,7 @@ export function VerifyEmailForm() {
       {/* Heading */}
       <div className="text-center space-y-2">
         <h1 className="text-4xl font-normal">Verify your email</h1>
-        <p className="text-gray-600">
+        <p className="text-muted-foreground">
           We sent a verification code to <strong>{email}</strong>
         </p>
       </div>
@@ -114,7 +116,7 @@ export function VerifyEmailForm() {
                 <FormControl>
                   <Input
                     placeholder="Enter 6-digit code"
-                    className="h-14 rounded-full bg-gray-50 border-0 text-base text-center tracking-widest"
+                    className="h-14 rounded-full bg-muted border-0 text-base text-center tracking-widest"
                     maxLength={6}
                     {...field}
                   />
@@ -125,14 +127,14 @@ export function VerifyEmailForm() {
           />
 
           {error && (
-            <div className={`text-sm text-center ${error.includes("success") ? "text-green-600" : "text-red-600"}`}>
+            <div className={`text-sm text-center ${error.includes("success") ? "text-primary" : "text-destructive"}`}>
               {error}
             </div>
           )}
 
           <Button
             type="submit"
-            className="w-full h-14 text-base rounded-full bg-black hover:bg-black/90"
+            className="w-full h-14 text-base rounded-full bg-primary hover:bg-primary/90"
             disabled={isLoading}
           >
             {isLoading ? "Verifying..." : "Verify Email"}

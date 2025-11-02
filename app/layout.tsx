@@ -32,12 +32,10 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
-
-      <body>
+    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable} h-full`} suppressHydrationWarning>
+      <body className="h-full">
       <ThemeProvider attribute={"class"}
       defaultTheme="dark"
-      
       >
       {children}
       </ThemeProvider>

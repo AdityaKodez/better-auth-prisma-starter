@@ -92,7 +92,7 @@ export function LoginForm() {
       <Button
         type="button"
         variant="outline"
-        className="w-full h-14 text-base rounded-full border-gray-200 hover:bg-gray-50 bg-transparent"
+        className="w-full h-14 text-base rounded-full border-border hover:bg-muted bg-transparent"
         onClick={handleGoogleSignIn}
         disabled={isLoading}
       >
@@ -120,10 +120,10 @@ export function LoginForm() {
       {/* Divider */}
       <div className="relative">
         <div className="absolute inset-0 flex items-center">
-          <div className="w-full border-t border-gray-200" />
+          <div className="w-full border-t border-border" />
         </div>
         <div className="relative flex justify-center text-sm">
-          <span className="px-4 bg-white text-gray-500">or</span>
+          <span className="px-4 bg-background text-muted-foreground">or</span>
         </div>
       </div>
 
@@ -136,7 +136,7 @@ export function LoginForm() {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                <InputGroup className="h-14 rounded-full bg-gray-50 border-0 text-base">
+                <InputGroup className="h-14 rounded-full bg-muted border-0 text-base">
                   <InputGroupAddon>
                   <MailIcon className="w-4 h-4" />
                   </InputGroupAddon>
@@ -159,7 +159,7 @@ export function LoginForm() {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <InputGroup className="h-14 rounded-full bg-gray-50 border-0 text-base">
+                  <InputGroup className="h-14 rounded-full bg-muted border-0 text-base">
                   <InputGroupAddon>
                   <EyeIcon className="w-4 h-4" />
                   </InputGroupAddon>
@@ -177,11 +177,11 @@ export function LoginForm() {
             )}
           />
 
-          {error && <div className="text-sm text-red-600 text-center">{error}</div>}
+          {error && <div className="text-sm text-destructive text-center">{error}</div>}
 
           <Button
             type="submit"
-            className="w-full h-14 text-base rounded-full bg-black hover:bg-black/90"
+            className="w-full h-14 text-base rounded-full bg-primary hover:bg-primary/90"
             disabled={isLoading}
           >
             {isLoading ? "Signing in..." : "Continue"}
@@ -190,7 +190,7 @@ export function LoginForm() {
       </Form>
 
       {/* Terms */}
-      <p className="text-sm text-gray-500 text-center">
+      <p className="text-sm text-muted-foreground text-center">
         By proceeding, you accept the{" "}
         <a href="/terms" className="underline">
           Terms

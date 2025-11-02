@@ -26,7 +26,7 @@ export default async function Dashboard() {
           <CardHeader>
             <div className="flex items-center justify-between gap-2">
               <div className="flex items-center gap-2">
-              <CheckCircle2 className="size-5 text-green-600 dark:text-green-400" />
+              <CheckCircle2 className="size-5 text-primary" />
               <CardTitle>Authentication Status</CardTitle>
               </div>
             <SignOutButton />
@@ -45,7 +45,7 @@ export default async function Dashboard() {
                 <p className="text-sm text-muted-foreground">{user?.email}</p>
               </div>
               <Badge variant="outline" className="gap-1">
-                <div className="size-2 rounded-full bg-green-600 dark:bg-green-400" />
+                <div className="size-2 rounded-full bg-primary" />
                 Authenticated
               </Badge>
             </div>
