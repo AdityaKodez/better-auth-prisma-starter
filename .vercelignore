@@ -1,4 +1,0 @@
-.env*
-!.env.vault
-node_modules
-.turbo
